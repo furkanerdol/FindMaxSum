@@ -1,6 +1,6 @@
 # FindMaxSum
 
-Finds the maximum sum of the numbers according to given rules below;
+Finds the maximum sum of the numbers on triangle according to given rules below;
 
 1. Start from the top and move downwards to an adjacent number as in below.
 2. Only allowed to walk downwards and diagonally.
