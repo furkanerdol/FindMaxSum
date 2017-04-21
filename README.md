@@ -6,7 +6,7 @@ Finds the maximum sum of the numbers according to given rules below;
 2. Only allowed to walk downwards and diagonally.
 3. Only walk over NON PRIME NUMBERS.
 
-# Sample input :
+# Sample Onput :
 
 1
 
@@ -15,6 +15,8 @@ Finds the maximum sum of the numbers according to given rules below;
 2 6 9
 
 8 5 9 3
+
+# Sample Output :
 
 #### Value of Maximum Sum 
 
