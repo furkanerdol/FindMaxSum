@@ -6,7 +6,7 @@ Finds the maximum sum of the numbers on triangle according to given rules below;
 2. Only allowed to walk downwards and diagonally.
 3. Only walk over NON PRIME NUMBERS.
 
-# Sample Onput :
+# Sample Input :
 
 1
 
