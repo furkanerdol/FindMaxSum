@@ -1,6 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -16,11 +17,11 @@ public class FindMaxSum {
     /**
      * Wrapper method
      */
-    public static int findMaxSum(String fileName) {
+    public static int findMaxSum(String fileName, ArrayList<Location> path) {
 
         readNumbersFromFile(fileName, numbersArray);
 
-        return findMaxSumRec(0, 0, ROWSIZE);
+        return findMaxSumRec(0, 0, ROWSIZE, path);
 
     }
 
@@ -32,9 +33,13 @@ public class FindMaxSum {
      * @param size row size
      * @return maximum sum value according to problem rules
      */
-    private static int findMaxSumRec(int x, int y, int size) {
+    private static int findMaxSumRec(int x, int y, int size, ArrayList<Location> path) {
 
         int total = 0, totalLeft = 0, totalMiddle = 0, totalRight = 0;
+
+        ArrayList<Location> tempListLeft = new ArrayList<>();
+        ArrayList<Location> tempListMiddle = new ArrayList<>();
+        ArrayList<Location> tempListRight = new ArrayList<>();
 
         if (x >= size) {
             return 0;
@@ -43,20 +48,26 @@ public class FindMaxSum {
         if (y > 0) {
 
             if (!isPrime(numbersArray[x + 1][y - 1])) {
-                totalLeft = findMaxSumRec(x + 1, y - 1, size);
+                totalLeft = findMaxSumRec(x + 1, y - 1, size, tempListLeft);
             }
             if (!isPrime(numbersArray[x + 1][y])) {
-                totalMiddle = findMaxSumRec(x + 1, y, size);
+                totalMiddle = findMaxSumRec(x + 1, y, size, tempListMiddle);
             }
             if (!isPrime(numbersArray[x + 1][y + 1])) {
-                totalRight = findMaxSumRec(x + 1, y + 1, size);
+                totalRight = findMaxSumRec(x + 1, y + 1, size, tempListRight);
             }
 
             if (totalRight >= totalMiddle && totalRight >= totalLeft) {
+                path.addAll(tempListRight);
+                path.add(new Location(x, y, numbersArray[x][y]));
                 return totalRight + numbersArray[x][y];
             } else if (totalLeft >= totalMiddle && totalLeft >= totalRight) {
+                path.addAll(tempListLeft);
+                path.add(new Location(x, y, numbersArray[x][y]));
                 return totalLeft + numbersArray[x][y];
             } else {
+                path.addAll(tempListMiddle);
+                path.add(new Location(x, y, numbersArray[x][y]));
                 return totalMiddle + numbersArray[x][y];
             }
 
@@ -64,20 +75,22 @@ public class FindMaxSum {
         } else {
 
             if (!isPrime(numbersArray[x + 1][y])) {
-                totalMiddle = findMaxSumRec(x + 1, y, size);
+                totalMiddle = findMaxSumRec(x + 1, y, size, tempListMiddle);
             }
             if (!isPrime(numbersArray[x + 1][y + 1])) {
-                totalRight = findMaxSumRec(x + 1, y + 1, size);
+                totalRight = findMaxSumRec(x + 1, y + 1, size, tempListRight);
             }
 
             if (totalRight >= totalMiddle) {
+                path.addAll(tempListRight);
+                path.add(new Location(x, y, numbersArray[x][y]));
                 return totalRight + numbersArray[x][y];
             } else {
+                path.addAll(tempListMiddle);
+                path.add(new Location(x, y, numbersArray[x][y]));
                 return totalMiddle + numbersArray[x][y];
             }
         }
-
-
     }
 
     /**
@@ -97,8 +110,12 @@ public class FindMaxSum {
         return true;
     }
 
-
-    public static void readNumbersFromFile(String fileName, int[][] numbersArray) {
+    /**
+     * Reads number from given file and stores them into numbersArray
+     * @param fileName file name
+     * @param numbersArray two dimensional numbers array
+     */
+    private static void readNumbersFromFile(String fileName, int[][] numbersArray) {
 
         try {
 
@@ -119,19 +136,59 @@ public class FindMaxSum {
 
             }
 
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Data structure to keep way points
+     */
+    private static class Location {
+        private int x; // x coordinate of number
+        private int y; // y coordinate of number
+        private int number; // number
+
+        public Location(int x, int y, int number) {
+            this.x = x;
+            this.y = y;
+            this.number = number;
+        }
+
+        public int getX(){return x;}
+        public int getY(){return y;}
+        public int getNumber(){return number;}
+    }
+
 
     public static void main(String args[]) {
 
-        System.out.printf("\n***** Maximum Sum Value : %d\n", findMaxSum("test.txt"));
+        ArrayList<Location> path = new ArrayList<>();
 
+        System.out.printf("\n#### Value of Maximum Sum \n\n%d", findMaxSum("test.txt", path));
+
+        System.out.println("\n\n#### Path of Maximum Sum \n");
+        for (int i = path.size() - 1; i >= 0; --i) {
+            System.out.print(path.get(i).number+ " > ");
+        }
+
+        System.out.print("Finish!");
+
+        System.out.println("\n\n#### Path Visualization of Maximum Sum \n");
+        for (int i = 0; i < ROWSIZE; ++i) {
+            int listIndex = path.size() - i - 1;
+            for (int j = 0; j < COLUMNSIZE; ++j) {
+                if (listIndex < path.size() && listIndex >= 0) {
+                    if (path.get(listIndex).getX() == i && path.get(listIndex).getY() == j) {
+                        System.out.printf("%d\t", path.get(listIndex).getNumber());
+                    } else {
+                        System.out.printf("0\t");
+                    }
+                }
+            }
+            System.out.print('\n');
+        }
     }
-
 }
 
 
