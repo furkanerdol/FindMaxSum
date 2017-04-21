@@ -9,8 +9,11 @@ Finds the maximum sum of the numbers according to given rules below;
 Sample input :
 
 1
+
 8 4
+
 2 6 9
+
 8 5 9 3
 
 Sample output :
@@ -25,7 +28,10 @@ Sample output :
 
 #### Path Visualization of Maximum Sum 
 
-1	0	0	0 0	
+1	0	0	0 0
+
 8	0	0	0	0
+
 0	6	0	0	0
+
 0	0	9	0	0
