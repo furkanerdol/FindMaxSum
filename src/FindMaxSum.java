@@ -9,8 +9,8 @@ import java.util.Scanner;
  */
 public class FindMaxSum {
 
-    public static final int ROWSIZE = 16;
-    public static final int COLUMNSIZE = 16;
+    public static final int ROWSIZE = 15;
+    public static final int COLUMNSIZE = 15;
 
     public static int[][] numbersArray = new int[ROWSIZE][COLUMNSIZE];
 
@@ -43,6 +43,9 @@ public class FindMaxSum {
 
         if (x >= size) {
             return 0;
+        }else if(x == (size -1)){
+            path.add(new Location(x, y, numbersArray[x][y]));
+            return numbersArray[x][y];
         }
 
         if (y > 0) {
