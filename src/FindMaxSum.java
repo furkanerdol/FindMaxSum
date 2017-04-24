@@ -35,10 +35,9 @@ public class FindMaxSum {
      */
     private static int findMaxSumRec(int x, int y, int size, ArrayList<Location> path) {
 
-        int total = 0, totalLeft = 0, totalMiddle = 0, totalRight = 0;
+        int totalLeft = 0, totalRight = 0;
 
         ArrayList<Location> tempListLeft = new ArrayList<>();
-        ArrayList<Location> tempListMiddle = new ArrayList<>();
         ArrayList<Location> tempListRight = new ArrayList<>();
 
         if (x >= size) {
@@ -48,52 +47,24 @@ public class FindMaxSum {
             return numbersArray[x][y];
         }
 
-        if (y > 0) {
-
-            if (!isPrime(numbersArray[x + 1][y - 1])) {
-                totalLeft = findMaxSumRec(x + 1, y - 1, size, tempListLeft);
-            }
-            if (!isPrime(numbersArray[x + 1][y])) {
-                totalMiddle = findMaxSumRec(x + 1, y, size, tempListMiddle);
-            }
-            if (!isPrime(numbersArray[x + 1][y + 1])) {
-                totalRight = findMaxSumRec(x + 1, y + 1, size, tempListRight);
-            }
-
-            if (totalRight >= totalMiddle && totalRight >= totalLeft) {
-                path.addAll(tempListRight);
-                path.add(new Location(x, y, numbersArray[x][y]));
-                return totalRight + numbersArray[x][y];
-            } else if (totalLeft >= totalMiddle && totalLeft >= totalRight) {
-                path.addAll(tempListLeft);
-                path.add(new Location(x, y, numbersArray[x][y]));
-                return totalLeft + numbersArray[x][y];
-            } else {
-                path.addAll(tempListMiddle);
-                path.add(new Location(x, y, numbersArray[x][y]));
-                return totalMiddle + numbersArray[x][y];
-            }
-
-
-        } else {
-
-            if (!isPrime(numbersArray[x + 1][y])) {
-                totalMiddle = findMaxSumRec(x + 1, y, size, tempListMiddle);
-            }
-            if (!isPrime(numbersArray[x + 1][y + 1])) {
-                totalRight = findMaxSumRec(x + 1, y + 1, size, tempListRight);
-            }
-
-            if (totalRight >= totalMiddle) {
-                path.addAll(tempListRight);
-                path.add(new Location(x, y, numbersArray[x][y]));
-                return totalRight + numbersArray[x][y];
-            } else {
-                path.addAll(tempListMiddle);
-                path.add(new Location(x, y, numbersArray[x][y]));
-                return totalMiddle + numbersArray[x][y];
-            }
+        if (!isPrime(numbersArray[x + 1][y])) {
+            totalRight = findMaxSumRec(x + 1, y, size, tempListRight);
         }
+        if (!isPrime(numbersArray[x + 1][y + 1])) {
+            totalLeft = findMaxSumRec(x + 1, y + 1, size, tempListLeft);
+        }
+
+        // backtrace
+        if (totalLeft > totalRight) {
+            path.addAll(tempListLeft);
+            path.add(new Location(x, y, numbersArray[x][y]));
+            return totalLeft + numbersArray[x][y];
+        } else {
+            path.addAll(tempListRight);
+            path.add(new Location(x, y, numbersArray[x][y]));
+            return totalRight + numbersArray[x][y];
+        }
+
     }
 
     /**
@@ -187,6 +158,8 @@ public class FindMaxSum {
                     } else {
                         System.out.printf("0\t");
                     }
+                }else{
+                    System.out.printf("0\t");
                 }
             }
             System.out.print('\n');
