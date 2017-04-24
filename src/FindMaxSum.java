@@ -21,9 +21,9 @@ public class FindMaxSum {
 
         readNumbersFromFile(fileName, numbersArray);
 
-        if(isPrime(numbersArray[0][0])){
+        if (isPrime(numbersArray[0][0])) {
             return 0;
-        }else{
+        } else {
             return findMaxSumRec(0, 0, ROWSIZE, path);
         }
 
@@ -46,7 +46,7 @@ public class FindMaxSum {
 
         if (x >= size) {
             return 0;
-        }else if(x == (size -1)){
+        } else if (x == (size - 1)) {
             path.add(new Location(x, y, numbersArray[x][y]));
             return numbersArray[x][y];
         }
@@ -59,6 +59,10 @@ public class FindMaxSum {
             totalLeft = findMaxSumRec(x + 1, y + 1, size, tempListLeft);
         }
 
+        // max sum path will be full path
+        if (isPrime(numbersArray[x + 1][y + 1]) && isPrime(numbersArray[x + 1][y]))
+            return Integer.MIN_VALUE;
+
         // backtrace
         if (totalLeft > totalRight) {
             path.addAll(tempListLeft);
@@ -69,7 +73,6 @@ public class FindMaxSum {
             path.add(new Location(x, y, numbersArray[x][y]));
             return totalRight + numbersArray[x][y];
         }
-
     }
 
     /**
@@ -91,7 +94,8 @@ public class FindMaxSum {
 
     /**
      * Reads number from given file and stores them into numbersArray
-     * @param fileName file name
+     *
+     * @param fileName     file name
      * @param numbersArray two dimensional numbers array
      */
     private static void readNumbersFromFile(String fileName, int[][] numbersArray) {
@@ -134,9 +138,17 @@ public class FindMaxSum {
             this.number = number;
         }
 
-        public int getX(){return x;}
-        public int getY(){return y;}
-        public int getNumber(){return number;}
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public int getNumber() {
+            return number;
+        }
     }
 
 
@@ -148,7 +160,7 @@ public class FindMaxSum {
 
         System.out.println("\n\n#### Path of Maximum Sum \n");
         for (int i = path.size() - 1; i >= 0; --i) {
-            System.out.print(path.get(i).number+ " > ");
+            System.out.print(path.get(i).number + " > ");
         }
 
         System.out.print("Finish!");
@@ -163,7 +175,7 @@ public class FindMaxSum {
                     } else {
                         System.out.printf("0\t");
                     }
-                }else{
+                } else {
                     System.out.printf("0\t");
                 }
             }
