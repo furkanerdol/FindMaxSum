@@ -21,7 +21,11 @@ public class FindMaxSum {
 
         readNumbersFromFile(fileName, numbersArray);
 
-        return findMaxSumRec(0, 0, ROWSIZE, path);
+        if(isPrime(numbersArray[0][0])){
+            return 0;
+        }else{
+            return findMaxSumRec(0, 0, ROWSIZE, path);
+        }
 
     }
 
@@ -50,6 +54,7 @@ public class FindMaxSum {
         if (!isPrime(numbersArray[x + 1][y])) {
             totalRight = findMaxSumRec(x + 1, y, size, tempListRight);
         }
+
         if (!isPrime(numbersArray[x + 1][y + 1])) {
             totalLeft = findMaxSumRec(x + 1, y + 1, size, tempListLeft);
         }
