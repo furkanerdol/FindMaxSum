@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -121,6 +122,9 @@ public class FindMaxSum {
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
+            java.lang.System.exit(1);
+        }catch (IOException e){
+            System.out.println("File input/output problem occurred!");
             java.lang.System.exit(1);
         } catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Please check your input file or row and column sizes!");
