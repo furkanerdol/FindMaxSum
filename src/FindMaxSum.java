@@ -120,7 +120,11 @@ public class FindMaxSum {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found!");
+            java.lang.System.exit(1);
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Please check your input file or row and column sizes!");
+            java.lang.System.exit(1);
         }
     }
 
